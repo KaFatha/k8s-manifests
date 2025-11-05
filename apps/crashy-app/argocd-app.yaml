@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: crashy-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/<username>/crashy-app.git
+    targetRevision: HEAD
+    path: .
+    # ArgoCD akan build image otomatis via kustom tool atau pakai external CI
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

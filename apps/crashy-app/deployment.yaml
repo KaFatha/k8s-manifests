@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crashy-app
+  labels:
+    app: crashy-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: crashy-app
+  template:
+    metadata:
+      labels:
+        app: crashy-app
+    spec:
+      containers:
+      - name: crashy-app
+        image: ghcr.io/KaFatha/crashy-app:latest
+        ports:
+        - containerPort: 3000
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/sh", "-c", "echo 'Pod started'"]
